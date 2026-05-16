@@ -1,8 +1,8 @@
 resource "aws_instance" "app" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
-  subnet_id              = aws_subnet.public.id
-  #vpc_security_group_ids = var.aws_security_group
+  subnet_id              = var.aws_subnet_public_1
+  vpc_security_group_ids = [var.security_group]
 
   # Installs Docker and runs the container on boot
   user_data = <<-EOF
@@ -60,8 +60,8 @@ resource "aws_lb" "app" {
   name               = "two-tier-alb"
   internal           = false
   load_balancer_type = "application"
-  #security_groups    = var.aws_security_group
-  #subnets            = var.aws_subnet_public
+  security_groups    = [var.security_group]
+  subnets            = [var.aws_subnet_public_1, var.aws_subnet_public_2]
   tags = { Name = "two-tier-alb" }
 }
 
@@ -69,7 +69,7 @@ resource "aws_lb_target_group" "app" {
   name     = "two-tier-tg"
   port     = 8080
   protocol = "HTTP"
-  vpc_id   = var.aws_vpc
+  vpc_id   = var.vpc_id
 
   health_check {
     path                = "/api/users/health"

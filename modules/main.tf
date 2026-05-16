@@ -12,7 +12,12 @@ module "ec2" {
     source = "./EC2"
     instance_type = "m7i-flex.large"
     ami_id = "ami-091138d0f0d41ff90"
-    db_user = "appuser
+    db_user = "appuser"
     db_password = var.db_password
-
+    vpc_id = module.vpc.vpc_id
+    security_group = module.vpc.security_groups
+    aws_subnet_public_1 = module.vpc.public_1
+    aws_subnet_public_2 = module.vpc.public_2
+    aws_subnet_private_a = module.vpc.private_a
+    aws_subnet_private_b = module.vpc.private_b
 }

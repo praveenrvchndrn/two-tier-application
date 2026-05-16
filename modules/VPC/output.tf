@@ -4,8 +4,11 @@ output "vpc_id" {
 output "security_groups" {
   value = aws_security_group.alb.id
 }
-output "public" {
-  value = aws_subnet.public.id
+output "public_1" {
+  value = aws_subnet.public_1.id
+}
+output "public_2" {
+  value = aws_subnet.public_2.id
 }
 output "private_a" {
   value = aws_subnet.private_a.id

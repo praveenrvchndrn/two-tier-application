@@ -1,6 +1,6 @@
 resource "aws_db_subnet_group" "main" {
   name       = "two-tier-db-subnet-group"
-  subnet_ids = [aws_subnet.private_a.id, aws_subnet.private_b.id]
+  subnet_ids = [var.aws_subnet_private_a, var.aws_subnet_private_b]
   tags = { Name = "two-tier-db-subnet-group" }
 }
 
@@ -16,11 +16,11 @@ resource "aws_db_instance" "mysql" {
   password = var.db_password
 
   db_subnet_group_name   = aws_db_subnet_group.main.name
-  vpc_security_group_ids = [aws_security_group.rds.id]
+  vpc_security_group_ids = [var.security_group]
 
   skip_final_snapshot     = true   # set false for prod
   publicly_accessible     = false
-  backup_retention_period = 7
+  backup_retention_period = 0
 
   tags = { Name = "two-tier-mysql" }
 }

@@ -15,15 +15,25 @@ variable "db_password" {
     sensitive = true
 }
 variable "db_user" {
+    type = string
     description = "User_Name" 
 }
-variable "aws_vpc" {
+variable "vpc_id" {
+    type = string
+    description = "VPC ID from vpc module"
 }
-#variable "aws_security_group" { 
-#}
-#variable "aws_subnet_public" {
-#}
-#variable "aws_subnet_private_a" {
-#}
-#variable "aws_subnet_private_b" {
-#}
+variable "security_group" { 
+    type = string
+}
+variable "aws_subnet_public_1" {
+    type = string
+}
+variable "aws_subnet_public_2" {
+    type = string
+}
+variable "aws_subnet_private_a" {
+    type = string
+}
+variable "aws_subnet_private_b" {
+    type = string
+}

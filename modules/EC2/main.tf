@@ -17,7 +17,7 @@ resource "aws_instance" "app" {
       docker login --username AWS --password-stdin ${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com
 
     docker run -d \
-      -p 8080:8080 \
+      -p 8081:8081 \
       -e DB_HOST=${aws_db_instance.mysql.address} \
       -e DB_NAME=${var.db_name} \
       -e DB_USER=${var.db_user} \
@@ -48,6 +48,15 @@ resource "aws_iam_role" "ec2_ecr" {
 resource "aws_iam_role_policy_attachment" "ecr_read" {
   role       = aws_iam_role.ec2_ecr.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+}
+
+resource "aws_ecr_repository" "two_tier_app" {
+  name                 = "two-tier-app"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
 }
 
 resource "aws_iam_instance_profile" "ec2_ecr" {
